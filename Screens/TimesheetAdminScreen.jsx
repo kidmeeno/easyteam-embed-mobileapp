@@ -1,10 +1,10 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { Timesheet, TimesheetRef, AddButton } from "@easyteam/ui";
-import Layout from "@/components/Layout";
 import { Button } from "react-native";
-import { StackScreenProps } from "@react-navigation/stack";
+import { useAppState } from "../context/AppStateContext";
 
 const TimesheetAdminScreen = ({ navigation, route }) => {
+  const { state } = useAppState();
   const ref = useRef(null);
 
   // Ensure employeeId is either a string or we handle the case where it's undefined
@@ -12,12 +12,6 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
 
   const [startDate, setStartDate] = useState(route.params?.startDate);
   const [endDate, setEndDate] = useState(route.params?.endDate);
-
-  const handleBack = useCallback(() => {
-    if (ref.current) {
-      navigation.navigate("Employees", { startDate, endDate });
-    }
-  }, [navigation, startDate, endDate]);
 
   useLayoutEffect(() => {
     if (ref.current?.adminWritePermissions) {
@@ -28,8 +22,9 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
             onPress={() => {
               const selectedEmployeeId = ref.current?.selectedEmployeeId;
               if (selectedEmployeeId) {
-                navigation.navigate("Shift Form", {
-                  employeeId: selectedEmployeeId,
+                navigation.navigate("AdminStack", {
+                  screen: "ShiftFormScreen",
+                  params: { employeeId: selectedEmployeeId }, // Pass the payload as params
                 });
               }
             }}
@@ -55,24 +50,24 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
   }
 
   return (
-    <Layout>
-      <Button onPress={handleBack} title="Back" />
-      <Timesheet
-        ref={ref}
-        onDateRangeChange={(newStartDate, newEndDate) => {
-          setStartDate(newStartDate);
-          setEndDate(newEndDate);
-        }}
-        employeeId={employeeId} // Safe to pass employeeId here
-        onEditPress={(date, selectedEmployeeId) => {
-          navigation.navigate("Shift Form", {
+    <Timesheet
+      ref={ref}
+      onDateRangeChange={(newStartDate, newEndDate) => {
+        setStartDate(newStartDate);
+        setEndDate(newEndDate);
+      }}
+      employeeId={employeeId} // Safe to pass employeeId here
+      onEditPress={(date, selectedEmployeeId) => {
+        navigation.navigate("AdminStack", {
+          screen: "ShiftFormScreen",
+          params: {
             date,
             employeeId: selectedEmployeeId,
-          });
-        }}
-        onEvent={(event) => console.log(event)}
-      />
-    </Layout>
+          },
+        });
+      }}
+      onEvent={(event) => console.log(event)}
+    />
   );
 };
 

@@ -1,12 +1,11 @@
 // src/components/ShiftFormScreen.tsx
 import React, { useEffect, useLayoutEffect, useRef } from "react";
-import Layout from "@/components/Layout";
 import { ShiftForm, ShiftFormRef } from "@easyteam/ui";
 import { Alert, Platform } from "react-native";
 import { HeaderBackButton } from "@react-navigation/elements";
 
 const ShiftFormScreen = ({ navigation, route }) => {
-  const { employeeId, date } = route.params;
+  const { date } = route.params;
   const ref = useRef(null);
 
   useLayoutEffect(() => {
@@ -72,16 +71,14 @@ const ShiftFormScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   return (
-    <Layout>
-      <ShiftForm
-        ref={ref}
-        employeeId={route.params.employeeId}
-        shiftDate={route.params.date}
-        onSaveSuccess={() => navigation.goBack()}
-        onCancelPress={() => navigation.goBack()}
-        onEvent={(event) => console.log(event)}
-      />
-    </Layout>
+    <ShiftForm
+      ref={ref}
+      employeeId={route.params.employeeId}
+      shiftDate={route.params.date}
+      onSaveSuccess={() => navigation.goBack()}
+      onCancelPress={() => navigation.goBack()}
+      onEvent={(event) => console.log(event)}
+    />
   );
 };
 
