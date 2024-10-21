@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { } from "react";
 import { EasyTeamProvider } from "@easyteam/ui";
 import { BASE_PATH } from "../config/api";
 import { useAppState } from "@/context/AppStateContext";

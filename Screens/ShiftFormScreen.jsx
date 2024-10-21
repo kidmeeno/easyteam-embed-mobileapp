@@ -1,6 +1,5 @@
-// src/components/ShiftFormScreen.tsx
 import React, { useEffect, useLayoutEffect, useRef } from "react";
-import { ShiftForm, ShiftFormRef } from "@easyteam/ui";
+import { ShiftForm } from "@easyteam/ui";
 import { Alert, Platform } from "react-native";
 import { HeaderBackButton } from "@react-navigation/elements";
 
@@ -16,7 +15,6 @@ const ShiftFormScreen = ({ navigation, route }) => {
       day: "numeric",
     };
 
-    // Modify the screen title and add a cancel button to the header
     const screenTitle = date
       ? new Date(date).toLocaleString("en-US", dateFormatOptions)
       : "Add Shift";
@@ -77,7 +75,6 @@ const ShiftFormScreen = ({ navigation, route }) => {
       shiftDate={route.params.date}
       onSaveSuccess={() => navigation.goBack()}
       onCancelPress={() => navigation.goBack()}
-      onEvent={(event) => console.log(event)}
     />
   );
 };

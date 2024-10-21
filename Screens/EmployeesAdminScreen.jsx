@@ -27,10 +27,9 @@ const EmployeesScreen = ({ navigation, route }) => {
       onEmployeeReportPress={({ employeeId, startDate, endDate }) => {
         navigation.navigate('AdminStack', {
           screen: 'TimesheetAdminScreen',
-          params: { employeeId, startDate, endDate }, // Pass the payload as params
+          params: { employeeId, startDate, endDate },
         });
       }}
-      onEvent={(event) => console.log(event)}
       startDate={startDate}
       endDate={endDate}
     />

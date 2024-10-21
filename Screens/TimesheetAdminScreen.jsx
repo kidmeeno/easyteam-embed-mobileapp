@@ -1,6 +1,5 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { Timesheet, TimesheetRef, AddButton } from "@easyteam/ui";
-import { Button } from "react-native";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { Timesheet, AddButton } from "@easyteam/ui";
 import { useAppState } from "../context/AppStateContext";
 
 const TimesheetAdminScreen = ({ navigation, route }) => {
@@ -24,7 +23,7 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
               if (selectedEmployeeId) {
                 navigation.navigate("AdminStack", {
                   screen: "ShiftFormScreen",
-                  params: { employeeId: selectedEmployeeId }, // Pass the payload as params
+                  params: { employeeId: selectedEmployeeId }, 
                 });
               }
             }}
@@ -46,7 +45,7 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
     // Optionally, show an error message or navigate back if employeeId is missing
     console.warn("employeeId is missing");
     navigation.goBack();
-    return null; // Avoid rendering if employeeId is missing
+    return null; 
   }
 
   return (
@@ -56,7 +55,7 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
         setStartDate(newStartDate);
         setEndDate(newEndDate);
       }}
-      employeeId={employeeId} // Safe to pass employeeId here
+      employeeId={employeeId}
       onEditPress={(date, selectedEmployeeId) => {
         navigation.navigate("AdminStack", {
           screen: "ShiftFormScreen",
@@ -66,7 +65,6 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
           },
         });
       }}
-      onEvent={(event) => console.log(event)}
     />
   );
 };

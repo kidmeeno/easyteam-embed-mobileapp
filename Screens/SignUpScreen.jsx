@@ -1,4 +1,3 @@
-// src/screens/SignUpScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -18,19 +17,17 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("regular"); // Default role is 'regular'
+  const [role, setRole] = useState("regular");
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
-  // Function to validate email format
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const handleSignUp = async () => {
-    // Check if the email is valid
     if (!validateEmail(email)) {
       Alert.alert("Invalid Email", "Please enter a valid email address");
       return;
@@ -71,13 +68,11 @@ const SignUpScreen = () => {
     };
 
     try {
-      // Make the POST request to the backend API for signup
       const response = await axios.post(
         BASE_URL + "/employees/create",
         payloadToSave
       );
       setLoading(true);
-      // Handle success response
       if (response.status === 201) {
         Alert.alert(
           "Sign Up Successful",
@@ -86,7 +81,6 @@ const SignUpScreen = () => {
         );
       }
     } catch (error) {
-      // Handle error response
       console.error("Sign Up Error:", error);
       Alert.alert(
         "Sign Up Failed",
@@ -138,7 +132,6 @@ const SignUpScreen = () => {
         autoCapitalize="none"
       />
 
-      {/* Role Selection Dropdown */}
       <Text style={styles.label}>Select Role:</Text>
       <View style={styles.pickerContainer}>
         <Picker

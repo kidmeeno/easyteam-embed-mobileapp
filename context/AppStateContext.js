@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
-// Create a Context
 const AppStateContext = createContext();
 
-// Reducer function to handle state updates
+
 const appReducer = (state, action) => {
   switch (action.type) {
     case 'SET_USER':

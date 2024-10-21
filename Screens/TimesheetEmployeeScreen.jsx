@@ -14,7 +14,6 @@ const TimesheetScreen = () => {
       }}
       startDate={startDate}
       endDate={endDate}
-      onEvent={(event) => console.log(event)}
     />
   );
 };
