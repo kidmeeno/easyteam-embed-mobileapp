@@ -1,7 +1,6 @@
 import Layout from "@/components/Layout";
 import React from "react";
 import { Settings } from "@easyteam/ui";
-import { EmployeeData } from "@/types/types";
 
 
 const SettingsScreen = () => {
