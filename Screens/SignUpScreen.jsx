@@ -52,8 +52,8 @@ const SignUpScreen = () => {
       email: email,
       password: password,
       username: username,
-      organizationId: "Org123",
-      partnerId: "Partner123",
+      organizationId: "Location123",
+      partnerId: "d40e2f92-2523-4833-a9cc-a95cef576876",
       payrollId: "Payroll123",
       employerPayrollId: "EmployerPayroll123",
       accessRole: {
