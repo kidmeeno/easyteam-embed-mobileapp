@@ -1,9 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef } from "react";
-import { StackScreenProps } from "@react-navigation/stack";
-import { View, Text } from "react-native";
-import { EmployeeListRef, EmployeesTimesheet } from "@easyteam/ui";
-import Layout from "@/components/Layout";
-
+import { EmployeesTimesheet } from "@easyteam/ui";
 
 const EmployeesScreen = ({ navigation, route }) => {
   const ref = useRef(null);
@@ -26,17 +22,18 @@ const EmployeesScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   return (
-    <Layout>
-      <EmployeesTimesheet
-        ref={ref}
-        onEmployeeReportPress={({ employeeId, startDate, endDate }) => {
-          navigation.navigate("Timesheet", { employeeId, startDate, endDate });
-        }}
-        onEvent={(event) => console.log(event)}
-        startDate={startDate}
-        endDate={endDate}
-      />
-    </Layout>
+    <EmployeesTimesheet
+      ref={ref}
+      onEmployeeReportPress={({ employeeId, startDate, endDate }) => {
+        navigation.navigate('AdminStack', {
+          screen: 'TimesheetAdminScreen',
+          params: { employeeId, startDate, endDate }, // Pass the payload as params
+        });
+      }}
+      onEvent={(event) => console.log(event)}
+      startDate={startDate}
+      endDate={endDate}
+    />
   );
 };
 
