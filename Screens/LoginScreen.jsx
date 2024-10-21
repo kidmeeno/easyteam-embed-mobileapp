@@ -36,13 +36,15 @@ const LoginScreen = () => {
       );
       // Handle successful response
       if (response.status === 200) {
-        const { token, payload, employees } = response.data;
+        const { token, employee, employees } = response.data;
+        console.log(token, employee, employees);
+        
+        dispatch({ type: "SET_TOKEN", payload: token });
+        dispatch({ type: "SET_EMPLOYEES", payload: employees });
+        dispatch({ type: "SET_USER", payload: employee });
         Alert.alert("Hurray!!!", "Login successful", [
           { text: "OK", onPress: () => navigation.navigate("ClockScreen") },
         ]);
-        dispatch({ type: "SET_USER", payload: payload });
-        dispatch({ type: "SET_TOKEN", payload: token });
-        dispatch({ type: "SET_EMPLOYEES", payload: employees });
       } else {
         Alert.alert(
           "Login Failed",
