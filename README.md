@@ -5,12 +5,12 @@
 ## Table of Contents
 
 - [Project Description](#project-description)
-- [EasyTeam Time Tracking Integration](#easyteam-time-tracking-integration)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+- [EasyTeam Time Tracking Integration](#easyteam-time-tracking-integration)
 - [Running the Project](#running-the-project)
 - [EasyTeam API Integration](#easyteam-api-integration)
 - [Folder Structure](#folder-structure)
@@ -27,49 +27,6 @@
 This project is a React Native Expo mobile application that integrates **EasyTeam**, a time tracking and employee management solution, enabling mobile apps to embed EasyTeam's time tracking functionality seamlessly.
 
 The app allows employees and administrators to interact with EasyTeam's time tracking features directly within their existing mobile environments.
-
-## EasyTeam Time Tracking Integration
-
-To integrate EasyTeam front-end components, start by installing from **EasyTeam** private npm registry:
-   1. Create a .npmrc file with the following: //registry.npmjs.org/:_authToken=${NPM_TOKEN} 
-   2. Contact **EasyTeam** to provide a value for the NPM_TOKEN environment variable 
-   3. For mobile, run the following command 
-    ```bash
-   npm install @easyteam/ui 
-   ```
-   In the root of your React Native app, import the EasyTeamProvider and wrap the app contents with it. See the below example.
-
-```javascript
-import React, { } from "react";
-import { EasyTeamProvider } from "@easyteam/ui";
-import { BASE_PATH } from "../config/api";
-import { useAppState } from "@/context/AppStateContext";
-
-const customFont = {
-  regular: "AvenirNext-Regular",
-  bold: "AvenirNext-Bold",
-  semiBold: "AvenirNext-DemiBold",
-};
-
-const Layout = ({ children }) => {
-  const { state } = useAppState();
-
-  return (
-    <EasyTeamProvider
-      token={state.token}
-      customFont={customFont}
-      employees={state.employees}
-      basePath={BASE_PATH}
-    >
-      {children}
-    </EasyTeamProvider>
-  );
-};
-
-export default Layout;
-```
-
-From the code snippet above you will see that the **EasyTeamProvider** takes a couple of properties. Make sure you have all the required fields in other to be authenticated.
    
 
 **EasyTeam embed** is a library used for embedding EasyTeam time tracking into other mobile applications. The integration enables users to:
@@ -144,6 +101,49 @@ npm start
 You can scan the QR code using the Expo Go app on your Android/iOS device, or run it on a simulator/emulator.
 
 - **Android:** Press `a` in the terminal to run the app in an Android emulator.
+
+## EasyTeam Time Tracking Integration
+
+To integrate EasyTeam front-end components, start by installing from **EasyTeam** private npm registry:
+   1. Create a .npmrc file with the following: //registry.npmjs.org/:_authToken=${NPM_TOKEN} 
+   2. Contact **EasyTeam** to provide a value for the NPM_TOKEN environment variable 
+   3. For mobile, run the following command 
+    ```bash
+   npm install @easyteam/ui 
+   ```
+   In the root of your React Native app, import the EasyTeamProvider and wrap the app contents with it. See the below example.
+
+```javascript
+import React, { } from "react";
+import { EasyTeamProvider } from "@easyteam/ui";
+import { BASE_PATH } from "../config/api";
+import { useAppState } from "@/context/AppStateContext";
+
+const customFont = {
+  regular: "AvenirNext-Regular",
+  bold: "AvenirNext-Bold",
+  semiBold: "AvenirNext-DemiBold",
+};
+
+const Layout = ({ children }) => {
+  const { state } = useAppState();
+
+  return (
+    <EasyTeamProvider
+      token={state.token}
+      customFont={customFont}
+      employees={state.employees}
+      basePath={BASE_PATH}
+    >
+      {children}
+    </EasyTeamProvider>
+  );
+};
+
+export default Layout;
+```
+
+From the code snippet above you will see that the **EasyTeamProvider** takes a couple of properties. Make sure you have all the required fields in other to be authenticated.
 
 ## EasyTeam API Integration
 
