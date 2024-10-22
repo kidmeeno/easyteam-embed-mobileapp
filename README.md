@@ -90,6 +90,10 @@ Ensure you have the following tools installed:
    npm install -g expo-cli
    ```
 
+4. **Set up ServerSide:**
+   To run the app you will need to run the server side code locally along side the **EasyTeam** App.
+   If you don't have the server side installed globally, please use this link https://github.com/kidmeeno/easyteam-serverside and folow the readme therein:
+
 ### Running the Project
 
 To start the project locally:
