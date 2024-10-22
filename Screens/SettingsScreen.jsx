@@ -14,7 +14,6 @@ const SettingsScreen = () => {
         BASE_URL + "/settings",
         { isGlobalTrackingEnabled: payload },
       );
-      console.log("Updated Setting:", response.data);
     } catch (error) {
       console.error("Error updating global tracking setting:", error);
     }
