@@ -25,7 +25,7 @@ const EmployeesScreen = ({ navigation, route }) => {
     <EmployeesTimesheet
       ref={ref}
       onEmployeeReportPress={({ employeeId, startDate, endDate }) => {
-        navigation.navigate('AdminStack', {
+        navigation.navigate('Time Sheet', {
           screen: 'TimesheetAdminScreen',
           params: { employeeId, startDate, endDate },
         });
