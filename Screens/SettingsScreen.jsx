@@ -10,7 +10,7 @@ const SettingsScreen = () => {
 
   const updateGlobalTrackingSetting = async (payload) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         BASE_URL + "/settings",
         { isGlobalTrackingEnabled: payload },
       );
