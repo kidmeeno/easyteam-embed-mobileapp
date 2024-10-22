@@ -21,7 +21,7 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
             onPress={() => {
               const selectedEmployeeId = ref.current?.selectedEmployeeId;
               if (selectedEmployeeId) {
-                navigation.navigate("AdminStack", {
+                navigation.navigate("Time Sheet", {
                   screen: "ShiftFormScreen",
                   params: { employeeId: selectedEmployeeId }, 
                 });
@@ -57,7 +57,7 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
       }}
       employeeId={employeeId}
       onEditPress={(date, selectedEmployeeId) => {
-        navigation.navigate("AdminStack", {
+        navigation.navigate("Time Sheet", {
           screen: "ShiftFormScreen",
           params: {
             date,

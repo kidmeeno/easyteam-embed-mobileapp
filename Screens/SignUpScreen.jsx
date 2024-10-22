@@ -1,96 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import { BASE_URL } from "@/config/api";
+import { fetchLocations, handleSignUp } from "../services/authService";
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
+  const [locationId, setLocationId] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("regular");
+  const [locations, setLocations] = useState([]);
+  const [loadingLocation, setLoadingLocation] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleSignUp = async () => {
-    if (!validateEmail(email)) {
-      Alert.alert("Invalid Email", "Please enter a valid email address");
-      return;
-    }
-
-    // Check if passwords match
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
-      return;
-    }
-    if (username === "") {
-      Alert.alert("Error", "Fix the name field to continue");
-      return;
-    }
-
-    // Create the payload
-    const payloadToSave = {
-      locationId: "Location123",
-      email: email,
-      password: password,
-      username: username,
-      organizationId: "Location123",
-      partnerId: "d40e2f92-2523-4833-a9cc-a95cef576876",
-      payrollId: "Payroll123",
-      employerPayrollId: "EmployerPayroll123",
-      accessRole: {
-        name: "manager",
-        permissions: [
-          "LOCATION_READ",
-          "SHIFT_READ",
-          "SHIFT_WRITE",
-          "SHIFT_ADD",
-        ],
-      },
-      role: {
-        name: role,
-      },
-    };
-
-    try {
-      const response = await axios.post(
-        BASE_URL + "/employees/create",
-        payloadToSave
-      );
-      setLoading(true);
-      if (response.status === 201) {
-        Alert.alert(
-          "Sign Up Successful",
-          `Your account has been created as a ${role}.`,
-          [{ text: "OK", onPress: () => navigation.navigate("LoginScreen") }]
-        );
-      }
-    } catch (error) {
-      console.error("Sign Up Error:", error);
-      Alert.alert(
-        "Sign Up Failed",
-        "There was an error creating your account. Please try again.",
-        [{ text: "OK" }]
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    fetchLocations({ setLocations, setLoadingLocation });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -132,7 +67,7 @@ const SignUpScreen = () => {
         autoCapitalize="none"
       />
 
-      <Text style={styles.label}>Select Role:</Text>
+      {/* <Text style={styles.label}>Select Role:</Text> */}
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={role}
@@ -144,12 +79,43 @@ const SignUpScreen = () => {
         </Picker>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>
-          {loading && "Loading"}
-          {!loading && "Sign Up"}
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={locationId}
+          onValueChange={(itemValue) => setLocationId(itemValue)}
+          style={styles.picker}
+          aria-disabled={loadingLocation}
+        >
+          {locations.map((location, index) => (
+            <Picker.Item
+              key={"is" + index}
+              label={location.name}
+              value={location._id}
+            />
+          ))}
+        </Picker>
+      </View>
+      <TouchableOpacity
+          style={styles.button}
+          disabled={!locations.length>0}
+          onPress={() => {
+            handleSignUp({
+              email,
+              password,
+              confirmPassword,
+              username,
+              role,
+              navigation,
+              setLoading,
+              locationId,
+            });
+          }}
+        >
+          <Text style={styles.buttonText}>
+            {loading && "Loading"}
+            {!loading && "Sign Up"}
+          </Text>
+        </TouchableOpacity>
     </View>
   );
 };

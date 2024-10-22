@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { FontAwesome } from "@expo/vector-icons";
 import ClockScreen from "../Screens/ClockScreen";
 import TimesheetScreen from "../Screens/TimesheetEmployeeScreen";
 import SettingsScreen from "../Screens/SettingsScreen";
@@ -35,16 +36,42 @@ function TabNavigator() {
   const userRole = state?.user?.role.name;
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#FF6347",
+        tabBarInactiveTintColor: "#8e8e93",
+        tabBarStyle: {
+          backgroundColor: "#2C2C2E",
+          borderTopWidth: 0,
+          paddingBottom: 5,
+          height: 60,
+        },
+        tabBarIconStyle: {
+          marginTop: 5,
+        },
+      }}
+    >
       <Tab.Screen
         name="ClockScreen"
         component={ClockScreen}
-        options={{ tabBarLabel: "Clock", headerShown: false }}
+        options={{
+          tabBarLabel: "Clock",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="clock-o" color={color} size={size} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Timesheet"
         component={TimesheetScreen}
-        options={{ tabBarLabel: "Timesheet", headerShown: false }}
+        options={{
+          tabBarLabel: "Timesheet",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="file-alt" color={color} size={size} />
+          ),
+        }}
       />
 
       {userRole === "admin" && (
@@ -52,12 +79,24 @@ function TabNavigator() {
           <Tab.Screen
             name="EmployeesAdminScreen"
             component={EmployeesAdminScreen}
-            options={{ tabBarLabel: "Employees" }}
+            options={{
+              tabBarLabel: "Employees",
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome name="users" color={color} size={size} />
+              ),
+            }}
           />
           <Tab.Screen
             name="SettingsScreen"
             component={SettingsScreen}
-            options={{ tabBarLabel: "Settings", headerShown: false }}
+            options={{
+              tabBarLabel: "Settings",
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome name="cogs" color={color} size={size} />
+              ),
+            }}
           />
         </>
       )}
@@ -68,17 +107,24 @@ function TabNavigator() {
 export function AppNavigator() {
   return (
     <Layout>
-      <RootStack.Navigator>
+      <RootStack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#2C2C2E",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
         <RootStack.Screen
           name="MainTabs"
           component={TabNavigator}
           options={{ headerShown: false }}
         />
 
-        <RootStack.Screen
-          name="AdminStack"
-          component={AdminStackNavigator}
-        />
+        <RootStack.Screen name="Time Sheet" component={AdminStackNavigator} />
       </RootStack.Navigator>
     </Layout>
   );
