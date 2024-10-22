@@ -69,7 +69,7 @@ function TabNavigator() {
           tabBarLabel: "Timesheet",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="file-alt" color={color} size={size} />
+            <FontAwesome name="file" color={color} size={size} />
           ),
         }}
       />
