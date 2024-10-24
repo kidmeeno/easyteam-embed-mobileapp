@@ -5,12 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert,
 } from "react-native";
-import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { useAppState } from "@/context/AppStateContext";
-import { BASE_URL } from "@/config/api";
+import { handleLogin } from "../services/authService";
 
 const LoginScreen = () => {
   const { dispatch } = useAppState();
@@ -18,39 +16,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Error", "Please enter both email and password");
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        BASE_URL + "/employees/employee-login",
-        {
-          email: email,
-          password: password,
-        }
-      );
-      // Handle successful response
-      if (response.status === 200) {
-        const { token, employee, employees } = response.data;
-        dispatch({ type: "SET_TOKEN", payload: token });
-        dispatch({ type: "SET_EMPLOYEES", payload: employees });
-        dispatch({ type: "SET_USER", payload: employee });
-      } else {
-        Alert.alert(
-          "Login Failed",
-          "Please check your credentials and try again"
-        );
-      }
-    } catch (error) {
-      Alert.alert("Login Failed", "An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -74,7 +39,7 @@ const LoginScreen = () => {
       <TouchableOpacity
         disabled={loading}
         style={styles.button}
-        onPress={handleLogin}
+        onPress={() => handleLogin({ email, password, setLoading, dispatch })}
       >
         <Text style={styles.buttonText}>
           {loading && "Loading"}

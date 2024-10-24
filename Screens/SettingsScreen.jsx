@@ -5,8 +5,6 @@ import { useAppState } from "../context/AppStateContext";
 import axios from "axios";
 
 const SettingsScreen = () => {
-  const { state } = useAppState();
-  const token = state.token;
 
   const updateGlobalTrackingSetting = async (payload) => {
     try {

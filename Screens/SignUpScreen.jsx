@@ -67,7 +67,6 @@ const SignUpScreen = () => {
         autoCapitalize="none"
       />
 
-      {/* <Text style={styles.label}>Select Role:</Text> */}
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={role}

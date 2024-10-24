@@ -3,8 +3,8 @@ import { Timesheet, AddButton } from "@easyteam/ui";
 
 const TimesheetAdminScreen = ({ navigation, route }) => {
   const ref = useRef(null);
-  // Ensure employeeId is either a string or we handle the case where it's undefined
-  const employeeId = route.params?.employeeId || ""; // Provide a fallback value
+
+  const employeeId = route.params?.employeeId
 
   useLayoutEffect(() => {
     if (ref.current?.adminWritePermissions) {
@@ -37,7 +37,6 @@ const TimesheetAdminScreen = ({ navigation, route }) => {
   // If employeeId is critical and can't be empty, handle the case when it's missing
   if (!employeeId) {
     // Optionally, show an error message or navigate back if employeeId is missing
-    console.warn("employeeId is missing");
     navigation.goBack();
     return null; 
   }

@@ -3,6 +3,7 @@
 import axios from "axios";
 import { Alert } from "react-native";
 import { BASE_URL } from "../config/api";
+import { useAppState } from "@/context/AppStateContext";
 
 export const handleSignUp = async ({
   email,
@@ -14,25 +15,21 @@ export const handleSignUp = async ({
   setLoading,
   locationId,
 }) => {
-  // Email validation
   if (!validateEmail(email)) {
     Alert.alert("Invalid Email", "Please enter a valid email address");
     return;
   }
 
-  // Check if passwords match
   if (password !== confirmPassword) {
     Alert.alert("Error", "Passwords do not match");
     return;
   }
 
-  // Check if username is empty
   if (username === "") {
     Alert.alert("Error", "Fix the name field to continue");
     return;
   }
 
-  // Create the payload for the signup request
   const payloadToSave = {
     locationId: locationId,
     email: email,
@@ -52,16 +49,13 @@ export const handleSignUp = async ({
   };
 
   try {
-    // Send the POST request to the backend
     const response = await axios.post(
       BASE_URL + "/employees/create",
       payloadToSave
     );
 
-    // Set loading state to true while the request is processed
     setLoading(true);
 
-    // Handle successful sign-up
     if (response.status === 201) {
       Alert.alert(
         "Sign Up Successful",
@@ -70,7 +64,6 @@ export const handleSignUp = async ({
       );
     }
   } catch (error) {
-    // Handle errors in the sign-up process
     console.error("Sign Up Error:", error);
     Alert.alert(
       "Sign Up Failed",
@@ -78,27 +71,66 @@ export const handleSignUp = async ({
       [{ text: "OK" }]
     );
   } finally {
-    // Set loading state back to false after request completion
     setLoading(false);
   }
 };
 
-export // Function to fetch the locations from the backend
-const fetchLocations = async ({ setLocations, setLoading }) => {
+export const fetchLocations = async ({ setLocations, setLoading }) => {
   try {
-    const response = await axios.get(BASE_URL + "/locations"); // Adjust base URL if necessary
+    const response = await axios.get(BASE_URL + "/locations");
 
     if (response.status === 200) {
-      setLocations(response.data); // Store fetched locations in state
+      setLocations(response.data);
     }
   } catch (err) {
     console.error("Error fetching locations:", err);
   } finally {
-    setLoading(false); // Set loading to false after request completes
+    setLoading(false);
   }
 };
 
-// Simple email validation function
+export const handleLogin = async ({
+  email,
+  password,
+  setLoading,
+  dispatch,
+}) => {
+  if (!email || !password) {
+    Alert.alert("Error", "Please enter both email and password");
+    return;
+  }
+  setLoading(true);
+  try {
+    const response = await axios.post(BASE_URL + "/employees/employee-login", {
+      email: email,
+      password: password,
+    });
+
+    if (response.status === 200) {
+      const { token, employee, employees, isGlobalTrackingEnabled } =
+        response.data;
+      dispatch({ type: "SET_TOKEN", payload: token });
+      dispatch({ type: "SET_EMPLOYEES", payload: employees });
+      dispatch({ type: "SET_USER", payload: employee });
+      dispatch({ type: "SET_USER", payload: employee });
+      dispatch({
+        type: "SET_ISGLOBALTRACKING",
+        payload: isGlobalTrackingEnabled,
+      });
+    } else {
+      Alert.alert(
+        "Login Failed",
+        "Please check your credentials and try again"
+      );
+    }
+  } catch (error) {
+    Alert.alert("Login Failed", "An error occurred. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
