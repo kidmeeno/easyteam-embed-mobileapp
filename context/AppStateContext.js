@@ -1,16 +1,17 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from "react";
 
 const AppStateContext = createContext();
 
-
 const appReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_USER':
+    case "SET_USER":
       return { ...state, user: action.payload };
-    case 'SET_TOKEN':
+    case "SET_TOKEN":
       return { ...state, token: action.payload };
-    case 'SET_EMPLOYEES':
+    case "SET_EMPLOYEES":
       return { ...state, employees: action.payload };
+    case "SET_ISGLOBALTRACKING":
+      return { ...state, isGlobalTrackingEnabled: action.payload };
     default:
       return state;
   }
@@ -18,8 +19,9 @@ const appReducer = (state, action) => {
 
 const initialState = {
   user: null,
-  token:'',
-  employees:[]
+  token: "",
+  employees: [],
+  isGlobalTrackingEnabled: true,
 };
 
 export const AppStateProvider = ({ children }) => {
