@@ -7,8 +7,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useAppState } from "@/context/AppStateContext";
 import { handleLogin } from "../services/authService";
+import useAppState from "../state/hooks/useAppState";
 
 const LoginScreen = () => {
   const { dispatch } = useAppState();

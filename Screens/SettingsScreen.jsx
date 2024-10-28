@@ -1,8 +1,8 @@
 import React from "react";
 import { Settings } from "@easyteam/ui";
 import { BASE_URL } from "../config/api";
-import { useAppState } from "../context/AppStateContext";
 import axios from "axios";
+import Logger from "../infrastructure/logger/Logger";
 
 const SettingsScreen = () => {
 
@@ -13,7 +13,7 @@ const SettingsScreen = () => {
         { isGlobalTrackingEnabled: payload },
       );
     } catch (error) {
-      console.error("Error updating global tracking setting:", error);
+      Logger.error("Error updating global tracking setting:", error);
     }
   };
 

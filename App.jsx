@@ -1,4 +1,4 @@
-import { AppStateProvider } from "./context/AppStateContext";
+import AppStateProvider from "./state";
 import MainNavigator from "./navigation/MainNavigator";
 import { LogBox } from "react-native";
 

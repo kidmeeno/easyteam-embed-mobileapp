@@ -1,9 +1,8 @@
-// authService.js
-
-import axios from "axios";
 import { Alert } from "react-native";
-import { BASE_URL } from "../config/api";
-import { useAppState } from "@/context/AppStateContext";
+import httpClient from "../infrastructure/httpClient/HttpClient";
+import Logger from "../infrastructure/logger/Logger";
+import { setAppState } from "../state/actions/appActions";
+import { validateEmail } from "../core/utils";
 
 export const handleSignUp = async ({
   email,
@@ -49,10 +48,7 @@ export const handleSignUp = async ({
   };
 
   try {
-    const response = await axios.post(
-      BASE_URL + "/employees/create",
-      payloadToSave
-    );
+    const response = await httpClient.post("/employees/create", payloadToSave);
 
     setLoading(true);
 
@@ -64,7 +60,7 @@ export const handleSignUp = async ({
       );
     }
   } catch (error) {
-    console.error("Sign Up Error:", error);
+    Logger.error("Sign Up Error:", error);
     Alert.alert(
       "Sign Up Failed",
       "There was an error creating your account. Please try again.",
@@ -77,13 +73,13 @@ export const handleSignUp = async ({
 
 export const fetchLocations = async ({ setLocations, setLoading }) => {
   try {
-    const response = await axios.get(BASE_URL + "/locations");
+    const response = await httpClient.get("/locations");
 
     if (response.status === 200) {
       setLocations(response.data);
     }
   } catch (err) {
-    console.error("Error fetching locations:", err);
+    Logger.error("Error fetching locations:", err);
   } finally {
     setLoading(false);
   }
@@ -101,7 +97,7 @@ export const handleLogin = async ({
   }
   setLoading(true);
   try {
-    const response = await axios.post(BASE_URL + "/employees/employee-login", {
+    const response = await httpClient.post("/employees/employee-login", {
       email: email,
       password: password,
     });
@@ -109,14 +105,14 @@ export const handleLogin = async ({
     if (response.status === 200) {
       const { token, employee, employees, isGlobalTrackingEnabled } =
         response.data;
-      dispatch({ type: "SET_TOKEN", payload: token });
-      dispatch({ type: "SET_EMPLOYEES", payload: employees });
-      dispatch({ type: "SET_USER", payload: employee });
-      dispatch({ type: "SET_USER", payload: employee });
-      dispatch({
-        type: "SET_ISGLOBALTRACKING",
-        payload: isGlobalTrackingEnabled,
-      });
+      dispatch(
+        setAppState({
+          token,
+          user:employee,
+          employees,
+          isGlobalTrackingEnabled,
+        })
+      );
     } else {
       Alert.alert(
         "Login Failed",
@@ -124,14 +120,9 @@ export const handleLogin = async ({
       );
     }
   } catch (error) {
+    Logger.info(error);
     Alert.alert("Login Failed", "An error occurred. Please try again.");
   } finally {
     setLoading(false);
   }
-};
-
-
-const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
 };

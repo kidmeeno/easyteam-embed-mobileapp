@@ -1,7 +1,7 @@
 import React, { } from "react";
 import { EasyTeamProvider } from "@easyteam/ui";
 import { BASE_PATH } from "../config/api";
-import { useAppState } from "@/context/AppStateContext";
+import useAppState from "../state/hooks/useAppState";
 
 const Layout = ({ children }) => {
   const { state } = useAppState();

@@ -4,7 +4,6 @@ import { EmployeesTimesheet } from "@easyteam/ui";
 const EmployeesScreen = ({ navigation, route }) => {
   const ref = useRef(null);
 
-  // Memoize startDate and endDate from route.params
   const startDate = useMemo(() => {
     return route.params ? route.params?.startDate : undefined;
   }, [route.params]);
@@ -14,7 +13,6 @@ const EmployeesScreen = ({ navigation, route }) => {
   }, [route.params]);
 
   useLayoutEffect(() => {
-    // Reload the report data when the screen is focused
     const unsubscribe = navigation.addListener("focus", () => {
       ref.current?.reloadData();
     });

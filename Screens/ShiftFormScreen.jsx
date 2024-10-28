@@ -8,7 +8,6 @@ const ShiftFormScreen = ({ navigation, route }) => {
   const ref = useRef(null);
 
   useLayoutEffect(() => {
-    // Correct date format options
     const dateFormatOptions = {
       year: "numeric",
       month: "long",
@@ -38,13 +37,10 @@ const ShiftFormScreen = ({ navigation, route }) => {
   useEffect(() => {
     const preventGoingBack = (e) => {
       if (!ref.current?.unsavedChanges) {
-        // If we don't have unsaved changes, then we don't need to do anything
         return;
       }
-      // Prevent default behavior of leaving the screen
       e.preventDefault();
 
-      // Prompt the user before leaving the screen
       Alert.alert(
         "Unsaved Changes",
         "Are you sure you want to discard the changes?",
@@ -53,7 +49,6 @@ const ShiftFormScreen = ({ navigation, route }) => {
           {
             text: "Yes",
             style: "destructive",
-            // If the user confirmed, then continue with the action
             onPress: () => navigation.dispatch(e.data.action),
           },
         ]
